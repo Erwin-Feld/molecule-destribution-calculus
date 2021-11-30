@@ -4,7 +4,7 @@
       <li
         v-for="item in requestData.molecules"
         :key="item.id"
-        @click="toggleClass($event.target)"
+        @click="updateChosenData($event.target)"
       >
         {{ item.name }}
       </li>
@@ -22,18 +22,53 @@ export default {
 
   data() {
     return {
-      selectedElements: [],
+      chosenData: [],
       requestData: molecules,
     };
   },
 
   methods: {
-    toggleClass(target) {
-      target.classList.toggle("selected");
-      console.log(this.selectedElements)
-      this.selectedElements.push(1)
+    updateChosenData(target) {
+      /* user clicked on elem again to unselect */
+      /* del dataElm from choosenData */
+      if (this.dataElmFound(target)) {
+        // deleteDataElm
+        this.chosenData.splice(this.choseDataElmIndex(target), 1)
+        /* untoggle class */
+        target.classList.toggle("selected");
+        console.log(this.chosenData)
 
+        /* user selects element */
+      } else {
+        /* add dataElm to choosenData */
+        this.chosenData.push(
+          this.requestData.molecules[this.reqDataElmIndex(target)]
+        );
+        /* toggle class */
+        target.classList.toggle("selected");
+      }
     },
+
+    /* returns the index position of the matched target elment */
+    reqDataElmIndex(target) {
+      return this.requestData.molecules.findIndex(
+        (elem) => elem.name === target.innerText
+      );
+    },
+
+    choseDataElmIndex(target){
+       return this.chosenData.findIndex(
+        (elem) => elem.name === target.innerText
+      );
+    },
+
+    /* checks if chosenData element already contains that  */
+    /* returns true if element found in choosen Data */
+    dataElmFound(target) {
+      return this.chosenData.some((elm) => elm.name === target.innerText);
+    },
+
+    delDataElm() {},
 
     async fetchData() {
       try {
