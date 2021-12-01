@@ -9,6 +9,7 @@
         {{ item.name }}
       </li>
     </ul>
+   <button @click="clickme">test</button>
   </section>
 </template>
 
@@ -105,6 +106,26 @@ export default {
         console.error(err);
       }
     },
+
+    clickme(){
+      // execute this function only when this.dataChanges changes data
+      
+
+     if(this.dataChange){
+       console.log("changed")
+     }
+    }
+  },
+
+
+
+  computed: {
+    dataChange(){
+      console.log("data changed")
+      return this.chosenData
+    }
+
+
   },
 
   mounted() {
