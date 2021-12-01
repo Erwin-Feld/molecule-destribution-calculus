@@ -19,7 +19,7 @@ import molecules from "../assets/comp.Data/molecules.json";
 
 export default {
   // name: "CalculationSection",
-
+  // list item state 
   data() {
     return {
       chosenData: [],
@@ -29,6 +29,16 @@ export default {
 
   methods: {
     updateChosenData(target) {
+
+      // Add internal state list ?
+      // get Index of this li the ul 
+      // problem is index ! == id 
+      // use Set ?
+      const li = target.closest('li');
+      const nodes = Array.from( target.closest('ul').children );
+      const index = nodes.indexOf( li );
+      console.log(index)
+
       /* user clicked on elem again to unselect */
       /* del dataElm from choosenData */
       if (this.dataElmFound(target)) {
